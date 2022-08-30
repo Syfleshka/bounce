@@ -1,0 +1,30 @@
+@import 'mixins';
+@import 'extends';
+
+.footer {
+  @extend %e-window-width;
+  margin-top: auto;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+}
+
+.footer__text {
+  @include font('footer');
+}
+
+.footer-text__href {
+  @extend %e-href;
+}
+
+.footer-text__href:visited {
+  @extend %e-href-visited;
+}
+
+.footer-text__href:hover {
+  @extend %e-href-hover;
+}
+
+.footer-text__href:visited:hover {
+  @extend %e-href-hover;
+}

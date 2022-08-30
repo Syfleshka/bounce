@@ -1,0 +1,6 @@
+@import 'mixins';
+@import 'extends';
+
+.main {
+  @extend %e-window-width;
+}

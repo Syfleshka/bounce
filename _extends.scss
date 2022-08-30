@@ -1,0 +1,22 @@
+@import "mixins";
+
+%e-window-width {
+  width: 100%;
+  max-width: 800px;
+  padding-left:40px;
+  padding-right:40px;
+  box-sizing: border-box;
+}
+
+%e-href {
+  color: $c-link;
+  transition: color 0.2s ease-out;
+}
+
+%e-href-hover {
+  color: $c-link-hover;
+}
+
+%e-href-visited {
+  color: $c-link;
+}

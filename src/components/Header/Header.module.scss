@@ -1,0 +1,12 @@
+@import 'mixins';
+@import 'extends';
+
+.header {
+  @extend %e-window-width;
+  text-align: center;
+}
+
+.header__text {
+  @include font('h1');
+  font-weight: 900;
+}

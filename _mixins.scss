@@ -1,0 +1,166 @@
+@mixin for-phone-only {
+  @media (max-width: 599px) { @content; }
+}
+@mixin for-tablet-portrait-up {
+  @media (min-width: 600px) { @content; }
+}
+@mixin for-tablet-landscape-up {
+  @media (min-width: 900px) { @content; }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) { @content; }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) { @content; }
+}
+
+//
+// Color Theme
+//
+
+
+$c-dark: #1A2238;
+$c-light: #e4ecf6;
+$c-accent: #9DAAF2;
+$c-link: #FF6A3D;
+$c-link-hover: #F4DB7D;
+
+//
+// Fonts
+//
+
+@mixin font($size) {
+  @if $size == 'biggesttext' {
+    font-size: 84px;
+    line-height: 96px;
+    @include for-tablet-portrait-up {
+      font-size: 96px;
+      line-height: 108px;
+    }
+    @include for-desktop-up {
+      font-size: 120px;
+      line-height: 132px;
+    }
+  } @else if $size == 'bigtext' {
+    font-size: 56px;
+    line-height: 64px;
+    @include for-tablet-portrait-up {
+      font-size: 72px;
+      line-height: 80px;
+    }
+    @include for-desktop-up {
+      font-size: 96px;
+      line-height: 108px;
+    }
+  } @else if $size == 'bigmenu' {
+    font-size: 44px;
+    line-height: 44px;
+    @include for-tablet-portrait-up {
+      font-size: 60px;
+      line-height: 60px;
+    }
+    @include for-desktop-up {
+      font-size: 76px;
+      line-height: 76px;
+    }
+  } @else if $size == 'h1' {
+    font-size: 44px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 60px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 76px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'h2' {
+    font-size: 32px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 48px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 60px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'h3' {
+    font-size: 28px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 32px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 48px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'h4' {
+    font-size: 24px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 24px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 32px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'h5' {
+    font-size: 20px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 20px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 24px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'h6' {
+    font-size: 16px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 16px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 20px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'paragraph' {
+    font-size: 14px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 14px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 16px;
+      line-height: 1.4em;
+    }
+  } @else if $size == 'footer' {
+    font-size: 12px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 12px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 14px;
+      line-height: 1.4em;
+    }
+  } @else {
+    font-size: 14px;
+    line-height: 1.4em;
+    @include for-tablet-portrait-up {
+      font-size: 14px;
+      line-height: 1.4em;
+    }
+    @include for-desktop-up {
+      font-size: 16px;
+      line-height: 1.4em;
+    }
+  }
+}
