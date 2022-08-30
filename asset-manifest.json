@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/bounce/static/css/main.491826ba.css",
+    "main.js": "/bounce/static/js/main.32fa816a.js",
+    "index.html": "/bounce/index.html",
+    "main.491826ba.css.map": "/bounce/static/css/main.491826ba.css.map",
+    "main.32fa816a.js.map": "/bounce/static/js/main.32fa816a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.491826ba.css",
+    "static/js/main.32fa816a.js"
+  ]
+}
