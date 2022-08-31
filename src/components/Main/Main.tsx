@@ -147,8 +147,12 @@ function Main() {
       saved.ballPosition.y >=
         bounceContainer.height - ballSize - saved.velocityLoss.y * fps
     ) {
+      if (saved.gravity === 0) {
+        clearInterval(props.interval)
+      }
       saved.ballPosition.y = bounceContainer.height - ballSize
-      clearInterval(props.interval)
+      saved.velocityLoss.y = 0
+      saved.gravity = 0
     }
   }
 
