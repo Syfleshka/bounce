@@ -15,7 +15,7 @@
   transition: box-shadow 0.2s ease-out;
   @include font('h5');
   color: $c-light;
-  max-width:120px;
+  max-width:60px;
 }
 .wrapper:hover > .input {
   box-shadow:inset 0px -4px 0px 0px $c-link-hover;

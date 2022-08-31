@@ -10,9 +10,6 @@
   min-height: calc(100% + 4px);
   background-color:$c-dark;
   z-index: 99999;
-  border-radius: 13px;
-  border: 1px solid $c-link;
-  box-shadow: 0 0 20px 0 rgba(0,0,0,0.4);
   animation: fadeIn .5s ease-out 1;
   @keyframes fadeIn {
     0% {opacity: 0}
@@ -29,15 +26,20 @@
 }
 
 .form {
+  border-radius: 13px;
+  border: 1px solid $c-link;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.4);
   display: flex;
   flex-direction:column;
   align-items: center;
+  margin:12px;
+  padding:12px;
 }
 .optionList {
   width: 100%;
   display: grid;
   gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 }
 
 .buttons {

@@ -19,6 +19,8 @@ function Options(props: {
   setVelocityLoss: React.Dispatch<React.SetStateAction<Velocity>>
   startPosition: BallPosition
   setStartPosition: React.Dispatch<React.SetStateAction<BallPosition>>
+  fps: number
+  setFps: React.Dispatch<React.SetStateAction<number>>
   BOUNCE_CONTAINER: RefObject<HTMLDivElement> | undefined
   resetSimulation: Function
 }) {
@@ -28,6 +30,7 @@ function Options(props: {
   const [startVelocity, setStartVelocity] = useState(props.startVelocity)
   const [velocityLoss, setVelocityLoss] = useState(props.velocityLoss)
   const [startPosition, setStartPosition] = useState(props.startPosition)
+  const [fps, setFps] = useState(props.fps)
 
   const setStartVelocityX = (value: number) => {
     setStartVelocity((prevValue) => ({
@@ -74,22 +77,16 @@ function Options(props: {
 
   useLayoutEffect(() => {
     const updateBounceContainer = () => {
-      if (props.BOUNCE_CONTAINER?.current !== null) {
-        setBounceContainer((prevValue) => ({
-          ...prevValue,
-          x:
-            (props.BOUNCE_CONTAINER?.current as HTMLDivElement).offsetWidth ||
-            0,
-          y:
-            (props.BOUNCE_CONTAINER?.current as HTMLDivElement).offsetHeight ||
-            0,
-        }))
-      }
+      setBounceContainer((prevValue) => ({
+        ...prevValue,
+        x: (props.BOUNCE_CONTAINER?.current as HTMLDivElement).offsetWidth,
+        y: (props.BOUNCE_CONTAINER?.current as HTMLDivElement).offsetHeight,
+      }))
     }
     window.addEventListener('resize', updateBounceContainer)
     updateBounceContainer()
     return () => window.removeEventListener('resize', updateBounceContainer)
-  }, [props.BOUNCE_CONTAINER])
+  }, [props.BOUNCE_CONTAINER, props.BOUNCE_CONTAINER?.current])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -99,6 +96,7 @@ function Options(props: {
     props.setStartVelocity(startVelocity)
     props.setVelocityLoss(velocityLoss)
     props.setStartPosition(startPosition)
+    props.setFps(fps)
     props.setShowOptions(false)
     props.resetSimulation()
   }
@@ -112,8 +110,8 @@ function Options(props: {
         props.showOptions ? null : classes.disabled
       }`}
     >
-      <h2 className={classes.header}>Options</h2>
       <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
+        <h2 className={classes.header}>Options</h2>
         <div className={classes.optionList}>
           <InputNumber
             helperText={`Horizontal. min = 0, max = ${
@@ -226,6 +224,18 @@ function Options(props: {
             onChange={setBounceForce}
           >
             Wall bounce force
+          </InputNumber>
+          <InputNumber
+            helperText="Render frequency. min = 1, max = 300, default = 60"
+            id="fps"
+            name="fps"
+            value={fps}
+            min={1}
+            max={300}
+            step={1}
+            onChange={setFps}
+          >
+            FPS
           </InputNumber>
         </div>
         <div className={classes.buttons}>
