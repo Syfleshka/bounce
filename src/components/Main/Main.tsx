@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Bounce from './Bounce/Bounce'
 import Options from './Options/Options'
 import Controls from './Controls/Controls'
-import { BallPosition } from '../../interface'
+import { BallPosition, SavedParams } from '../../interface'
 
 function Main() {
   const [ballSize, setBallSize] = useState(60)
@@ -21,6 +21,7 @@ function Main() {
     x: 40,
     y: 40,
   })
+  const [fps, setFps] = useState(60)
 
   const [showOptions, setShowOptions] = useState(false)
 
@@ -28,21 +29,30 @@ function Main() {
   const BOUNCE_BALL = useRef<HTMLDivElement>(null)
 
   const [intervalID, setIntervalID] = useState(0)
-  const [savedParams, setSavedParams] = useState({
-    ballPosition: structuredClone(startPosition),
-    velocity: structuredClone(startVelocity),
-  })
 
-  let ballPosition = savedParams.ballPosition
-  let velocity = savedParams.velocity
-
-  const resetParams = () => {
-    ballPosition = structuredClone(startPosition)
-    velocity = structuredClone(startVelocity)
-    setSavedParams((prevValue) => ({ ...prevValue, ballPosition, velocity }))
+  const calcSaved: SavedParams = {
+    ballPosition: {
+      x: startPosition.x,
+      y: startPosition.y,
+    },
+    velocity: {
+      x: startVelocity.x * (60 / fps),
+      y: startVelocity.y * (60 / fps),
+    },
+    gravity: gravity,
+    velocityLoss: {
+      x: velocityLoss.x * (60 / fps) * (60 / fps),
+      y: velocityLoss.y * (60 / fps) * (60 / fps),
+    },
   }
-  const saveParams = () => {
-    setSavedParams((prevValue) => ({ ...prevValue, ballPosition, velocity }))
+  const [saved, setSaved] = useState<SavedParams>(calcSaved)
+
+  console.log(saved)
+  const resetParams = () => {
+    setSaved((prevValue) => ({
+      ...prevValue,
+      ...calcSaved,
+    }))
   }
 
   const changeBallPosition = (newBallPosition: BallPosition) => {
@@ -58,7 +68,7 @@ function Main() {
     }
   }
 
-  const simulation = (interval: number) => {
+  const simulation = (props: { interval: number }) => {
     const bounceContainer = {
       element: BOUNCE_CONTAINER.current,
       width: BOUNCE_CONTAINER.current?.offsetWidth || 0,
@@ -67,96 +77,104 @@ function Main() {
 
     // Y movement
     const changeDirectionY = () => {
-      velocity.y = -velocity.y * bounceForce
+      saved.velocity.y = -saved.velocity.y * bounceForce
     }
     if (
-      ballPosition.y <= bounceContainer.height - ballSize &&
-      ballPosition.y >= 0
+      saved.ballPosition.y <= bounceContainer.height - ballSize &&
+      saved.ballPosition.y >= 0
     ) {
-      const newBallPosition = ballPosition.y + gravity * velocity.y
+      const newBallPosition =
+        saved.ballPosition.y + saved.gravity * saved.velocity.y
       if (newBallPosition >= bounceContainer.height - ballSize) {
-        ballPosition.y = bounceContainer.height - ballSize
+        const diff = newBallPosition - bounceContainer.height + ballSize
+        saved.ballPosition.y = bounceContainer.height - diff - ballSize
         changeDirectionY()
       } else if (newBallPosition <= 0) {
-        ballPosition.y = 0
+        saved.ballPosition.y = -newBallPosition
         changeDirectionY()
       } else {
-        ballPosition.y = newBallPosition
+        saved.ballPosition.y = newBallPosition
       }
-      velocity.y < 1
-        ? (velocity.y += velocityLoss.y)
-        : (velocity.y -= velocityLoss.y)
-      changeBallPosition(ballPosition)
+
+      saved.velocity.y += saved.velocityLoss.y
+      changeBallPosition(saved.ballPosition)
     } else {
-      velocity.y = -velocity.y * bounceForce
-      ballPosition.y = ballPosition.y + gravity * velocity.y
-      changeBallPosition(ballPosition)
+      saved.velocity.y = -saved.velocity.y * bounceForce
+      saved.ballPosition.y =
+        saved.ballPosition.y + saved.gravity * saved.velocity.y
+      changeBallPosition(saved.ballPosition)
     }
 
     // X Movement
     const changeDirectionX = () => {
-      velocity.x = -velocity.x * bounceForce
+      saved.velocity.x = -saved.velocity.x * bounceForce
     }
     if (
-      ballPosition.x <= bounceContainer.width - ballSize &&
-      ballPosition.x >= 0
+      saved.ballPosition.x <= bounceContainer.width - ballSize &&
+      saved.ballPosition.x >= 0
     ) {
-      const newBallPosition = ballPosition.x + velocity.x
+      const newBallPosition = saved.ballPosition.x + saved.velocity.x
       if (newBallPosition >= bounceContainer.width - ballSize) {
-        ballPosition.x = bounceContainer.width - ballSize
+        const diff = newBallPosition - bounceContainer.width + ballSize
+        saved.ballPosition.x = bounceContainer.width - diff - ballSize
         changeDirectionX()
       } else if (newBallPosition <= 0) {
-        ballPosition.x = 0
+        saved.ballPosition.x = -newBallPosition
         changeDirectionX()
       } else {
-        ballPosition.x = newBallPosition
+        saved.ballPosition.x = newBallPosition
       }
-      if (velocity.x >= 0) {
-        velocity.x - velocityLoss.x > 0
-          ? (velocity.x -= velocityLoss.x)
-          : (velocity.x = 0)
+      if (saved.velocity.x >= 0) {
+        saved.velocity.x - saved.velocityLoss.x > 0
+          ? (saved.velocity.x -= saved.velocityLoss.x)
+          : (saved.velocity.x = 0)
       } else {
-        velocity.x + velocityLoss.x < 0
-          ? (velocity.x += velocityLoss.x)
-          : (velocity.x = 0)
+        saved.velocity.x + saved.velocityLoss.x < 0
+          ? (saved.velocity.x += saved.velocityLoss.x)
+          : (saved.velocity.x = 0)
       }
-      changeBallPosition(ballPosition)
+      changeBallPosition(saved.ballPosition)
     } else {
-      velocity.x = -velocity.x * bounceForce
-      ballPosition.x = ballPosition.x + velocity.x
-      changeBallPosition(ballPosition)
+      saved.velocity.x = -saved.velocity.x * bounceForce
+      saved.ballPosition.x = saved.ballPosition.x + saved.velocity.x
+      changeBallPosition(saved.ballPosition)
     }
-    // Stop if velocity too slow
+
+    // Stop if saved.velocity too slow
     if (
-      velocity.x === 0 &&
-      velocity.y < 0.2 &&
-      velocity.y > -0.2 &&
-      ballPosition.x === bounceContainer.height - ballSize
+      saved.velocity.x === 0 &&
+      saved.velocity.y < 0.1 &&
+      saved.velocity.y > -0.1 &&
+      saved.ballPosition.y === bounceContainer.height - ballSize
     ) {
-      clearInterval(interval)
+      clearInterval(props.interval)
     }
   }
 
   const startSimulation = () => {
-    saveParams()
     clearInterval(intervalID)
-    const interval = window.setInterval(() => simulation(interval), 1000 / 60)
+    const interval = window.setInterval(
+      () => simulation({ interval }),
+      1000 / fps
+    )
     setIntervalID(interval)
   }
   const pauseSimulation = () => {
-    saveParams()
     clearInterval(intervalID)
   }
   const resetSimulation = () => {
     changeBallPosition(startPosition)
     resetParams()
-    ballPosition = structuredClone(startPosition)
+    saved.ballPosition = structuredClone(startPosition)
     clearInterval(intervalID)
   }
 
   useEffect(() => {
+    resetParams()
     changeBallPosition(startPosition)
     changeBallSize(ballSize)
+    // todo fix deps array
+    // eslint-disable-next-line
   }, [
     ballSize,
     gravity,
@@ -164,6 +182,7 @@ function Main() {
     startVelocity,
     velocityLoss,
     startPosition,
+    fps,
   ])
 
   return (
@@ -184,6 +203,8 @@ function Main() {
         setVelocityLoss={setVelocityLoss}
         startPosition={startPosition}
         setStartPosition={setStartPosition}
+        fps={fps}
+        setFps={setFps}
         BOUNCE_CONTAINER={BOUNCE_CONTAINER}
       />
       <Controls
@@ -198,7 +219,7 @@ function Main() {
         BOUNCE_CONTAINER={BOUNCE_CONTAINER}
         BOUNCE_BALL={BOUNCE_BALL}
         ballSize={ballSize}
-        ballPosition={ballPosition}
+        ballPosition={saved.ballPosition}
       />
     </main>
   )
