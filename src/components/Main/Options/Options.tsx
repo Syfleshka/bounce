@@ -86,6 +86,8 @@ function Options(props: {
     window.addEventListener('resize', updateBounceContainer)
     updateBounceContainer()
     return () => window.removeEventListener('resize', updateBounceContainer)
+    // todo fix props.BOUNCE_CONTAINER?.current
+    // eslint-disable-next-line
   }, [props.BOUNCE_CONTAINER, props.BOUNCE_CONTAINER?.current])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
