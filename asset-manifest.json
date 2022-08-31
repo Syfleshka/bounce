@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/bounce/static/css/main.7bbaf0d3.css",
-    "main.js": "/bounce/static/js/main.e8eeb71f.js",
+    "main.js": "/bounce/static/js/main.331dedc6.js",
     "index.html": "/bounce/index.html",
     "main.7bbaf0d3.css.map": "/bounce/static/css/main.7bbaf0d3.css.map",
-    "main.e8eeb71f.js.map": "/bounce/static/js/main.e8eeb71f.js.map"
+    "main.331dedc6.js.map": "/bounce/static/js/main.331dedc6.js.map"
   },
   "entrypoints": [
     "static/css/main.7bbaf0d3.css",
-    "static/js/main.e8eeb71f.js"
+    "static/js/main.331dedc6.js"
   ]
 }
