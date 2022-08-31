@@ -47,7 +47,6 @@ function Main() {
   }
   const [saved, setSaved] = useState<SavedParams>(calcSaved)
 
-  console.log(saved)
   const resetParams = () => {
     setSaved((prevValue) => ({
       ...prevValue,
