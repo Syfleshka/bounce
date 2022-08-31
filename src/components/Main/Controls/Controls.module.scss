@@ -1,0 +1,38 @@
+@import 'mixins';
+@import 'extends';
+
+.controls {
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column-reverse;
+  @include for-tablet-portrait-up {
+    flex-direction: row;
+  }
+}
+.actions {
+  margin-left: auto;
+  margin-right: auto;
+  @include for-tablet-portrait-up {
+    margin-left: 0;
+  }
+}
+.actions > * {
+  margin: 0 12px;
+}
+.actions > *:first-child {
+  margin: 0 12px 0 0;
+}
+.actions > *:last-child {
+  margin: 0 0 0 12px;
+}
+.options {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 24px;
+  @include for-tablet-portrait-up {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+}

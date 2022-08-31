@@ -1,0 +1,29 @@
+@import 'mixins';
+@import 'extends';
+
+.wrapper {
+  @include font('h5');
+  border-radius: 13px;
+  border: 1px solid $c-light;
+  padding: 12px;
+}
+
+.input {
+  background: $c-dark;
+  border: none;
+  box-shadow:inset 0px -1px 0px 0px $c-link;
+  transition: box-shadow 0.2s ease-out;
+  @include font('h5');
+  color: $c-light;
+  max-width:120px;
+}
+.wrapper:hover > .input {
+  box-shadow:inset 0px -4px 0px 0px $c-link-hover;
+}
+.span {
+  margin-left: 12px;
+}
+.helper {
+  @include font('footer');
+  margin: 4px 0 0 0;
+}

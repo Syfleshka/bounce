@@ -1,0 +1,17 @@
+@import 'mixins';
+@import 'extends';
+
+.button {
+  @include font('h5');
+  padding: 4px 8px 2px;
+  border: none;
+  box-shadow:inset 0px -1px 0px 0px $c-link;
+  background-color: $c-dark;
+  color: $c-light;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-out;
+  font-weight: bold;
+}
+.button:hover {
+  box-shadow:inset 0px -4px 0px 0px $c-link-hover;
+}
