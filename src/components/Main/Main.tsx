@@ -140,8 +140,6 @@ function Main() {
     }
 
     // Stop if saved.velocity too slow
-    console.log(saved.velocity.y)
-    console.log(saved.velocityLoss.y)
     if (
       saved.velocity.x === 0 &&
       saved.velocity.y < saved.velocityLoss.y &&
