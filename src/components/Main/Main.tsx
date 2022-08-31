@@ -140,11 +140,14 @@ function Main() {
     }
 
     // Stop if saved.velocity too slow
+    console.log(saved.velocity.y)
+    console.log(saved.velocityLoss.y)
     if (
       saved.velocity.x === 0 &&
-      saved.velocity.y < 0.1 &&
-      saved.velocity.y > -0.1 &&
-      saved.ballPosition.y === bounceContainer.height - ballSize
+      saved.velocity.y < saved.velocityLoss.y &&
+      saved.velocity.y > -saved.velocityLoss.y &&
+      saved.ballPosition.y >=
+        bounceContainer.height - ballSize - saved.velocityLoss.y * fps
     ) {
       clearInterval(props.interval)
     }

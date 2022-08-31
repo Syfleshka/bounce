@@ -228,11 +228,11 @@ function Options(props: {
             Wall bounce force
           </InputNumber>
           <InputNumber
-            helperText="Render frequency. min = 1, max = 300, default = 60"
+            helperText="Render frequency. min = 5, max = 300, default = 60"
             id="fps"
             name="fps"
             value={fps}
-            min={1}
+            min={5}
             max={300}
             step={1}
             onChange={setFps}
